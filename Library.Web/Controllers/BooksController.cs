@@ -1,5 +1,6 @@
-﻿using Library.Service.DTO;
-using Library.Web.Services;
+﻿using AutoMapper;
+using Library.Core.Service;
+using Library.Service.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -7,39 +8,21 @@ namespace Library.Web.Controllers
 {
     public class BooksController : Controller
     {
-        private readonly BooksApiService _booksApiService;
-        private readonly CategoryApiService _categoryApiService;
-        public BooksController(BooksApiService booksApiService,
-                               CategoryApiService categoryApiService)
+        private readonly ICategoryService _categoryService;
+        private readonly IBooksService _booksService;
+        private readonly IMapper _mapper;
+
+        public BooksController(ICategoryService categoryService, IBooksService booksService, IMapper mapper)
         {
-            _booksApiService = booksApiService;
-            _categoryApiService = categoryApiService;
+            _mapper = mapper;
+            _categoryService = categoryService;
+            _booksService = booksService;
         }
         public async Task<IActionResult> Index()
         {
-            return View(await _booksApiService.GetAllBooks());
+            var books = await _booksService.GetAllAsync();
+            return View(books);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Save()
-        {
-            var categoriesDto = await _categoryApiService.GetAllCategory();
-            ViewBag.Categories = new SelectList(categoriesDto, "Id", "Name");
-            return View();
-
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Save(BooksSaveDto booksDto)
-        {
-            if (ModelState.IsValid)
-            {
-                await _booksApiService.SaveAsync(booksDto);
-                return RedirectToAction(nameof(Index));
-            }
-            var categoriesDto = await _categoryApiService.GetAllCategory();
-            ViewBag.Categories = new SelectList(categoriesDto, "Id", "Name");
-            return View();
-        }
     }
 }

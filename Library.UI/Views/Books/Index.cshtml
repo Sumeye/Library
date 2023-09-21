@@ -1,0 +1,44 @@
+﻿@model List<Library.Core.DTO.BooksDto>
+
+<a asp-controller="Books" asp-action="Save" class="btn btn-primary"> Kitap Ekle</a>
+
+
+<table class="table table-striped" id="example">
+    <thead>
+        <tr>
+            <th>Resmi</th>
+            <th>Kitap Adı</th>
+            <th>Yazarı </th>
+            <th>Durumu</th>
+            <th>İşlem</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="~/image/@item.Image" alt="@item.Image" width="100" height="150" />
+                </td>
+                <td>@item.Name</td>
+                <td>@item.Author</td>
+                <td>@(item.BookStatus ? "Ödünç verildi" : "Kütüphanede")</td>
+
+                <td>
+                    @if (!item.BookStatus)
+                    {
+                        <a asp-controller="Books" asp-action="SaveLoan" asp-route-id="@item.BooksId" class="btn btn-sm btn-success"> Ödünç Ver</a>
+                    }
+                    else
+                    {
+                        <span class="badge bg-light text-dark">@(item.Loan?.Name ?? "") @(item.Loan?.SurName ?? "")</span>
+                        <br />
+                        <span>tarafından</span>
+                        <span class="badge bg-primary">@(item.Loan?.ReturnDate.ToString("dd.MM.yyyy") ?? "")</span>
+                        <span>tarihinde teslim edilecek.</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

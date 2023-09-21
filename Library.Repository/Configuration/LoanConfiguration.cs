@@ -21,6 +21,8 @@ namespace Library.Repository.Configuration
             builder.Property(x => x.DeliveryDate);
 
             builder.ToTable(nameof(Loan));
+
+          
         }
     }
 }

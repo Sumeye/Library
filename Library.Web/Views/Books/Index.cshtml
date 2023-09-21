@@ -1,0 +1,30 @@
+﻿@model List<Library.Core.Models.Books>
+
+
+<a asp-controller="Products" asp-action="Save" class="btn btn-primary"> New Product</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Kitap Adı</th>
+            <th>Yazarı </th>
+            <th>Resmi</th>
+            <th>Kitap Durumu</th>
+            <th>Ödünç Verme</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Author</td>
+                <td>@item.Image</td>
+                <td>@item.BookStatus</td>
+                <td><button>Ödünç Ver</button></td>
+             @*   <td><a class="btn btn-warning" asp-controller="Products" asp-action="Update" asp-route-id="@item.Id">Güncelle</a></td>
+                <td><a class="btn btn-danger" asp-controller="Products" asp-action="Remove" asp-route-id="@item.Id">Delete</a></td>*@
+
+            </tr>
+        }
+    </tbody>
+</table>

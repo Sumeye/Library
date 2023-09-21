@@ -9,5 +9,6 @@ namespace Library.Core.Repositories
         IQueryable<T> Where(Expression<Func<T, bool>> expression);
         Task AddAsync(T entity);
         void Remove(T entity);
+        void Update(T entity);
     }
 }

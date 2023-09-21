@@ -1,0 +1,36 @@
+﻿@model  Library.Core.DTO.LoanDto
+
+<h1>Ödünç Ver </h1>
+
+<div class="row">
+    <div class=col-md-6>
+        <form asp-action="SaveLoan" asp-controller="Books" method="post" enctype="multipart/form-data">
+            <input asp-for="BooksId" value="@ViewBag.BooksId" hidden/>
+            <div class="form-group">
+                <label asp-for="Name">Adı</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SurName">Soyadı</label>
+                <input asp-for="SurName" class="form-control" />
+                <span asp-validation-for="SurName" class="text-danger"></span>
+            </div>
+              <div class="form-group">
+                <label asp-for="DeliveryDate">Teslim Tarihi</label>
+                <input asp-for="DeliveryDate" class="form-control" type="date" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                <span asp-validation-for="DeliveryDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReturnDate">Getirme Tarihi</label>
+                <input asp-for="ReturnDate" class="form-control" type="date" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                <span asp-validation-for="ReturnDate" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value=Save class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+
+</div>

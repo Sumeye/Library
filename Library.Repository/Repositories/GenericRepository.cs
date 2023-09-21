@@ -54,9 +54,6 @@ namespace Library.Repository.Repositories
         {
             _dbSet.Update(entity);
         }
-
-  
-
         public IQueryable<T> Where(Expression<Func<T, bool>> expression)
         {
             return _dbSet.Where(expression);

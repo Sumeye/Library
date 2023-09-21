@@ -40,8 +40,12 @@ namespace Library.Repository.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Description")
+                    b.Property<int?>("CurrentLoanId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ISBN")
                         .IsRequired()
@@ -55,9 +59,6 @@ namespace Library.Repository.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ReleaseDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("BooksId");
 
@@ -91,6 +92,9 @@ namespace Library.Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LoanId"));
 
+                    b.Property<int>("BooksId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("DeliveryDate")
                         .HasColumnType("datetime2");
 
@@ -107,6 +111,8 @@ namespace Library.Repository.Migrations
 
                     b.HasKey("LoanId");
 
+                    b.HasIndex("BooksId");
+
                     b.ToTable("Loan", (string)null);
                 });
 
@@ -119,6 +125,17 @@ namespace Library.Repository.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Library.Core.Models.Loan", b =>
+                {
+                    b.HasOne("Library.Core.Models.Books", "Books")
+                        .WithMany()
+                        .HasForeignKey("BooksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Books");
                 });
 
             modelBuilder.Entity("Library.Core.Models.Category", b =>

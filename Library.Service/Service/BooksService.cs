@@ -1,11 +1,12 @@
-﻿using Library.Core.Models;
+﻿using Library.Core.DTO;
+using Library.Core.Models;
 using Library.Core.Repositories;
 using Library.Core.Service;
 using Library.Core.UnitofWork;
 
 namespace Library.Service.Service
 {
-    internal class BooksService : Service<Books>, IBooksService
+    public class BooksService : Service<Books>, IBooksService
     {
         private readonly IBooksRepository _booksRepository;
         public BooksService(IGenericRepository<Books> repository, IUnitOfWork unitOfWork, IBooksRepository booksRepository) : base(repository, unitOfWork)
@@ -13,6 +14,9 @@ namespace Library.Service.Service
             _booksRepository = booksRepository;
         }
 
-
+        public async Task<List<BooksDto>> GetBooksWithLoan()
+        {
+            return  await _booksRepository.GetBooksWithLoan();
+        }
     }
 }

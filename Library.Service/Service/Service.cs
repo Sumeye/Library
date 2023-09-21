@@ -22,20 +22,22 @@ namespace Library.Service.Service
             return entity;
         }
 
+        public async Task UpdateAsync(T entity)
+        {
+            _repository.Update(entity);
+            await _unitOfWork.CommitAsync();
+        }
+
+
         public async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _repository.GetAll().ToListAsync();
         }
 
-        //public async Task<T> GetByIdAsync(int id)
-        //{
-        //    var hasUser = await _repository.GetByIdAsync(id);
-        //    if (hasUser == null)
-        //    {
-        //        throw new ClientSideException($"{typeof(T).Name} ({id}) Not Found");
-        //    }
-        //    return hasUser;
-        //}
+        public async Task<T> GetByIdAsync(int id)
+        {
+            return await _repository.GetByIdAsync(id);
+        }
 
         public async Task RemoveAsync(T entity)
         {
