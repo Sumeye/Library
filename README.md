@@ -25,19 +25,20 @@ Değiştirme ve silme işlemleri doğrudan veri tabanı üzerindeki kayıtlara e
 
 Uygulama içerisinde oluşabilecek exceptionlar için kontroller yapılmıştır.
 
-## Uygulama Görselleri
-#### Kitap Listeleme Ekranı 
-<div align="center">
-  <a href="https://github.com/Sumeye/Library">
-    <img src="~/images/kitaplisteleme.png" alt="kitaplisteleme" width="80" height="80">
-  </a>
-
 
 ## Teknik Gereklilikler
 - .Net Core MVC 
 - MSSQL 
 - EFCore 
 - HTML5, Bootstrap ve Jquery 
+
+## Database
+library.UI katmanı altında bulunan libraryScript.sql dosyasını çalıştırabilirsiniz.Çalıştırmadan önce aşağıdaki kodu çalıştırarak yeni bir database oluşturmalısınız.
+appSettings.json dosyasında bulunan "Data Source" kısmına kendi local database isminizi vermelisiniz.
+``` bash 
+CREATE DATABASE LibraryDB
+
+
 
 
 
