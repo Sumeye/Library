@@ -36,7 +36,7 @@ Uygulama içerisinde oluşabilecek exceptionlar için kontroller yapılmıştır
 library.UI katmanı altında bulunan libraryScript.sql dosyasını çalıştırabilirsiniz.Çalıştırmadan önce aşağıdaki kodu çalıştırarak yeni bir database oluşturmalısınız.
 appSettings.json dosyasında bulunan "Data Source" kısmına kendi local database isminizi vermelisiniz.
 ``` bash 
-CREATE DATABASE LibraryDB
+CREATE DATABASE LibraryDb
 
 
 
