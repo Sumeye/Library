@@ -10,6 +10,7 @@ using Library.Repository.UnitOfWork;
 using Library.Service.Mapping;
 using Library.Service.Service;
 using Library.Service.Validations;
+using Library.UI.Middlewares;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -33,7 +34,7 @@ builder.Services.AddDbContext<AppDbContext>(x =>
     });
 });
 
-
+builder.Services.AddLogging();
 builder.Services.AddAutoMapper(typeof(MapProfile));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
@@ -54,6 +55,9 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.UseMiddleware<UseCustomExceptionHandler>();
+
 app.UseStatusCodePagesWithReExecute("/Home/Error/");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -62,7 +66,7 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-//app.UseCustomException();
+
 
 app.MapControllerRoute(
     name: "default",

@@ -1,34 +1,37 @@
 ﻿using Library.Core.DTO;
 using Library.Service.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.Extensions.Logging;
 using System.Text.Json;
 
 namespace Library.UI.Middlewares
 {
-    public static class UseCustomExceptionHandler
+    public class UseCustomExceptionHandler
     {
-        public static void UseCustomException(this IApplicationBuilder app)
+        private readonly RequestDelegate _next;
+        private readonly ILogger _logger;
+
+        public UseCustomExceptionHandler(RequestDelegate next,ILogger<ExceptionHandlerMiddleware> logger)
         {
-            app.UseExceptionHandler(config =>
-            {
-                config.Run(async context =>
-                {
-                    context.Response.ContentType = "application/json";
-                    var exceptionFeature = context.Features.Get<IExceptionHandlerFeature>();
-
-                    var statusCode = exceptionFeature.Error switch
-                    {
-                        ClientSideException => 400,
-                        NotFoundException => 404,
-                        _ => 500
-                    };
-                    context.Response.StatusCode = statusCode;
-
-                    var response = CustomResponseDto<NoContentDto>.Error(statusCode, exceptionFeature.Error.Message);
-                    await context.Response.WriteAsync(JsonSerializer.Serialize(response));
-                });
-            });
-
+            _next = next;
+            _logger = logger;
         }
+
+        public async Task Invoke(HttpContext httpContext)
+        {
+            try
+            {
+                await _next.Invoke(httpContext);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("--------------------------EXCEPTION--------------------------------");
+                _logger.LogError($"Status Code: {httpContext.Response.StatusCode}");
+                _logger.LogError($"Request Path: {httpContext.Request.Path}");
+                _logger.LogError($"Request Method: {httpContext.Request.Method}");
+                _logger.LogError($"Exception Message: {ex.Message}");
+                _logger.LogError("--------------------------EXCEPTION--------------------------------");
+            }
+        } 
     }
 }

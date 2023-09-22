@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Library.UI.Controllers
 {
-  
+
     public class BooksController : Controller
     {
         private readonly ICategoryService _categoryService;
@@ -67,9 +67,9 @@ namespace Library.UI.Controllers
         }
 
         [HttpPost]
-
         public async Task<IActionResult> SaveLoan(LoanDto loanDto)
         {
+
             if (ModelState.IsValid)
             {
                 Loan loan = await _loanService.AddAsync(_mapper.Map<Loan>(loanDto));
@@ -82,12 +82,14 @@ namespace Library.UI.Controllers
                     book.CurrentLoanId = loan.LoanId;
 
                     await _booksService.UpdateAsync(book);
+
                     return RedirectToAction("Index");
                 }
 
             }
 
-            return RedirectToAction("SaveLoan", new { booksId = loanDto.BooksId });
+            ViewBag.BooksId = loanDto.BooksId;
+            return View();
         }
 
 
